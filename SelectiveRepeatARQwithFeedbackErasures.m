@@ -17,8 +17,8 @@ pos = [950,200,500,380];
 %# of channel states of a multistate Markov process S_t
 K = 2;      %There are Good G and Bad B states
 
-r = 0.3; 
-%r = 0.1;
+%r = 0.3; 
+r = 0.1;
 rf = r;    %1/r represents the average error burst    %(or r = 0.3)    
 rr = r;
 if rf == 0

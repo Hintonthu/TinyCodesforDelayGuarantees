@@ -10,16 +10,16 @@ markerStyles = {'o'};
 colorStyles = {'k'};
 pos = [950,200,500,380];
 
-cnst = 1;
+cnst = 1; %choose 1 or 2
 k = cnst*5; %RTT
-%T = cnst*8; %timeout value 1
-T = cnst*15; %timeout value 2
+T = cnst*8; %timeout value 1
+%T = cnst*15; %timeout value 2
 
 d = T-k; %time difference between timeout T and RTT k
 
 %Forward and reverse channel parameters (symmetric GE channels)
-%r = 0.3;
-r = 0.1;
+r = 0.3;
+%r = 0.1;
 
 eps_count = 20;
 eps_min = 0.001;
@@ -46,7 +46,7 @@ symbolic = 0; %1 for memoryless channel results
 %SHOULD BE LARGE ENOUGH
 packetno = 10^4;    %10^4;   %10^4; %ideally all of them are successfully transmitted when eps=0
 slotno = 10^6;      %10^6;   %number of consecutive observations from the channel 
-total_r_no = 10;     %100;    %total number of channel realizations
+total_r_no = 100;     %100;    %total number of channel realizations
 
 % if r == 0.1
 %     slotno = 10*slotno;
@@ -165,7 +165,7 @@ for q = qset
                 
                 %TRANSITION FROM STATE A TO STATE C THEN TO STATE 0
                 if max(ChannelStater(t_tau:t_tau+d)) == 0 %ACK is LOST and the timer expires   
-                    %t_tau = t_tau + 1; %not sure about this?
+                    
                     while max(ChannelStater(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                         t_tau = t_tau + 1;  %wait till timeout (d=T-k slots) and retransmit packet
                     end
@@ -310,7 +310,7 @@ for eps = eps_set
                 
                 %TRANSITION FROM STATE A TO STATE C THEN TO STATE 0
                 if max(ChannelStater(t_tau:t_tau+d)) == 0 %ACK is LOST and the timer expires   
-                    t_tau = t_tau + 1; %not sure about this?
+                    t_tau = t_tau + 1; 
                     while max(ChannelStater(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                         t_tau = t_tau + 1;  %wait till timeout (d=T-k slots) and retransmit packet
                     end
@@ -405,8 +405,7 @@ for eps = eps_set
             while ACKreceived == 0 && max(t_D_for_tau,t_tau) < total_no  %packet will be retransmitted till the ACK is successfully received.
                 
                 %TRANSITION FROM STATE A TO STATE C THEN TO STATE 0
-                if max(ChannelStater(t_tau:t_tau+d)) == 0 %ACK is LOST and the timer expires   
-                    t_tau = t_tau + 1; %not sure about this?
+                if max(ChannelStater(t_tau:t_tau+d)) == 0 %ACK is LOST and the timer expires                       
                     while max(ChannelStater(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                         t_tau = t_tau + 1;  %wait till timeout (d=T-k slots) and retransmit packet
                     end
@@ -647,7 +646,7 @@ for q = qset
 
                     %TRANSITION FROM STATE A1 TO STATE C1 THEN TO STATE 0
                     if max(ChannelStater2(t_tau:t_tau+d-1)) == 0 %ACK is LOST and the timer expires   
-                        t_tau = t_tau + 1; %not sure about this?
+                        t_tau = t_tau + 1; 
                         while max(ChannelStater2(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                             t_tau = t_tau + 1;  %wait till timeout (d+1=T-k slots) and retransmit packet
                         end
@@ -682,7 +681,7 @@ for q = qset
 
                     %TRANSITION FROM STATE A2 TO STATE C2 THEN TO STATE 0
                     if max(ChannelStater(t_tau:t_tau+d)) == 0 %ACK is LOST and the timer expires   
-                        t_tau = t_tau + M; %not sure about this?
+                        t_tau = t_tau + M; 
                         while max(ChannelStater(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                             t_tau = t_tau + M;  %wait till timeout (d=T-k-1 slots) and retransmit both packets
                         end
@@ -817,7 +816,7 @@ for q = qf_set
 
                     %TRANSITION FROM STATE A1 TO STATE C1 THEN TO STATE 0
                     if max(ChannelStater2(t_tau:t_tau+d-1)) == 0 %ACK is LOST and the timer expires   
-                        t_tau = t_tau + 1; %not sure about this?
+                        t_tau = t_tau + 1; 
                         while max(ChannelStater2(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                             t_tau = t_tau + 1;  %wait till timeout (d+1=T-k slots) and retransmit packet
                         end
@@ -854,7 +853,7 @@ for q = qf_set
 
                     %TRANSITION FROM STATE A2 TO STATE C2 THEN TO STATE 0
                     if max(ChannelStater(t_tau:t_tau+d)) == 0 %ACK is LOST and the timer expires   
-                        t_tau = t_tau + M; %not sure about this?
+                        t_tau = t_tau + M; 
                         while max(ChannelStater(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                             t_tau = t_tau + M;  %wait till timeout (d=T-k-1 slots) and retransmit both packets
                         end
@@ -1062,7 +1061,7 @@ for q = qset
 
                         %TRANSITION FROM STATE A1 TO STATE C1 THEN TO STATE 0
                         if max(ChannelStater2(t_tau:t_tau+d-1)) == 0 %ACK is LOST and the timer expires   
-                            t_tau = t_tau + 1; %not sure about this?
+                            t_tau = t_tau + 1; 
                             while max(ChannelStater2(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                                 t_tau = t_tau + 1;  %wait till timeout (d+1=T-k slots) and retransmit packet
                             end
@@ -1098,7 +1097,7 @@ for q = qset
 
                         %TRANSITION FROM STATE A1 TO STATE C1 THEN TO STATE 0
                         if max(ChannelStater2(t_tau:t_tau+d-1)) == 0 %ACK is LOST and the timer expires   
-                            %t_tau = t_tau + 1; %not sure about this?
+                            %t_tau = t_tau + 1; 
                             while max(ChannelStater2(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                                 t_tau = t_tau + 1;  %wait till timeout (d+1=T-k slots) and retransmit packet
                             end
@@ -1160,7 +1159,7 @@ for q = qset
 
                     %TRANSITION FROM STATE A1 TO STATE C1 THEN TO STATE 0
                     if max(ChannelStater2(t_tau:t_tau+d-1)) == 0 %ACK is LOST and the timer expires   
-                        t_tau = t_tau + 1; %not sure about this?
+                        t_tau = t_tau + 1;
                         while max(ChannelStater2(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                             t_tau = t_tau + 1;  %wait till timeout (d+1=T-k slots) and retransmit packet
                         end
@@ -1195,7 +1194,7 @@ for q = qset
 
                     %TRANSITION FROM STATE A2 TO STATE C2 THEN TO STATE 0
                     if max(ChannelStater(t_tau:t_tau+d)) == 0 %ACK is LOST and the timer expires   
-                        t_tau = t_tau + M; %not sure about this?
+                        t_tau = t_tau + M; 
                         while max(ChannelStater(t_tau:t_tau+T-1)) == 0 && max(t_D_for_tau,t_tau) < total_no 
                             t_tau = t_tau + M;  %wait till timeout (d=T-k-1 slots) and retransmit both packets
                         end

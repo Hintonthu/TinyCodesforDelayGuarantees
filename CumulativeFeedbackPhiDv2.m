@@ -81,7 +81,13 @@ function [PhiD, phiD, meanDelay, Throughput] = CumulativeFeedbackPhiDv2(z,k,K,T,
     %STATE C2 & self loop: Px0C -> (I2-Px1C) because in my definition,
     %Px0C+Px1C \neq I2 ->this will affect the derivatives, please check!
     PhiD = z^k*P^k/(I2-P1x_D_1)*(z*P00C+z*P01C/(I2-z*Px1C)*z*(I2-Px1C)+z*P0/(I2-P1x_D_2)*(z*P00+z*P01/(I2-z*Px1)*z*Px0));
-      
+    
+   
+%     Ptilde = P00C+P10C+P01C+P11C+P0;
+%     PhiD = z^k*P^k*(I2/(I2-P1x_D_1(z))*(z*P00C+z*P01C/(I2-z*Px1C)*z*(Ptilde-Px1C+P0/2))...
+%                   +z*P0*I2/(I2-P1x_D_1(z))*I2/(I2-P1x_D_2(z))*(z*P00+z*P01/(I2-z*Px1)*z*Px0));
+
+    
     phiD = (pi_I_kron * PhiD * onevec)/(pi_I_kron * onevec);
     
     %Derivative of phiD: evaluate at z=1 to obtain mean delay
@@ -97,6 +103,11 @@ function [PhiD, phiD, meanDelay, Throughput] = CumulativeFeedbackPhiDv2(z,k,K,T,
                    *(P00C+2*z*P01C/(I2-z*Px1C)*(I2-Px1C)+z*P01C/(I2-z*Px1C)*Px1C/(I2-z*Px1C)*z*(I2-Px1C)+P0/(I2-P1x_D_2)*(z*P00+z*P01/(I2-z*Px1)*z*Px0)...
                    +z*P0/(I2-P1x_D_2)*derivativeP1x_D_2/(I2-P1x_D_2)*(z*P00+z*P01/(I2-z*Px1)*z*Px0)...
                    +z*P0/(I2-P1x_D_2)*(P00+2*z*P01/(I2-z*Px1)*Px0+z*P01/(I2-z*Px1)*Px1/(I2-z*Px1)*z*Px0));
+              
+%     derivativePhiD = k*z^(k-1)*P^k*(I2/(I2-P1x_D_1(z))*(z*P00C+z*P01C/(I2-z*Px1C)*z*(Ptilde-Px1C+P0/2))...
+%                   +z*P0*I2/(I2-P1x_D_1(z))*I2/(I2-P1x_D_2(z))*(z*P00+z*P01/(I2-z*Px1)*z*Px0))...
+%                   +z^k*P^k*(I2/(I2-P1x_D_1(z))*derivativeP1x_D_1*I2/(I2-P1x_D_1(z))*(z*P00C+z*P01C/(I2-z*Px1C)*z*(Ptilde-Px1C+P0/2))+I2/(I2-P1x_D_1(z))*(P00C+2*P01C/(I2-z*Px1C)*(Ptilde-Px1C+P0/2)+P01C/(I2-z*Px1C)*Px1C/(I2-z*Px1C)*(Ptilde-Px1C+P0/2))...
+%                   +P0*I2/(I2-P1x_D_1(z))*I2/(I2-P1x_D_2(z))*(z*P00+z*P01/(I2-z*Px1)*z*Px0)+z*P0*(I2/(I2-P1x_D_1(z))*derivativeP1x_D_1*I2/(I2-P1x_D_1(z))*I2/(I2-P1x_D_2(z))+I2/(I2-P1x_D_1(z))*I2/(I2-P1x_D_2(z))*derivativeP1x_D_2*I2/(I2-P1x_D_2(z)))*(z*P00+z*P01/(I2-z*Px1)*z*Px0)+z*P0*I2/(I2-P1x_D_1(z))*I2/(I2-P1x_D_2(z))*(P00+2*P01/(I2-z*Px1)*Px0+P01/(I2-z*Px1)*Px1/(I2-z*Px1)*Px0));
 
     %Mean delay per M packets (bucket)           
     meanDelay = (pi_I_kron * derivativePhiD * onevec)/(pi_I_kron * onevec); 

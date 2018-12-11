@@ -45,13 +45,15 @@ function [phiD, PMF_delay, CCDF_delay] = CF_ARQtailDelay(k,K,T,P_kron,pi_I_kron,
     Px0C = P00C+P10C; %Px0*Px0;
     Px1C = P01C+P11C; %Px1*Px1;
     
+    Ptilde = P10C+P11C+P00C+P01C+P0; %Px1C+Px0C+P0;
     
-    
-    P1x_D_1 = @(z) z^(T-d)*P^(T-d)*(z*P10C+z*P11C*z^d*P^d);
+    P1x_D_1 = @(z) z^(T-d)*Ptilde^(T-d)*(z*P10C+z*P11C*z^d*Ptilde^d);
     P1x_D_2 = @(z) z^(T-d-1)*P^(T-d-1)*(z*P10+z*P11*z^(d+1)*P^(d+1));
     %STATE C2 & self loop: Px0C -> (I2-Px1C) because in my definition, Px0C+Px1C \neq I2
-    PhiD = @(z) z^k*P^k/(I2-P1x_D_1(z))*(z*P00C+z*P01C/(I2-z*Px1C)*z*(I2-Px1C)+z*P0/(I2-P1x_D_2(z))*(z*P00+z*P01/(I2-z*Px1)*z*Px0));
+    PhiD = @(z) z^k*P^k*(I2/(I2-P1x_D_1(z))*(z*P00C+z*P01C/(I2-z*Px1C)*z*(Ptilde-Px1C+P0/2))...
+                  +z*P0*I2/(I2-P1x_D_1(z))*I2/(I2-P1x_D_2(z))*(z*P00+z*P01/(I2-z*Px1)*z*Px0));
     phiD = @(z) (pi_I_kron * PhiD(z) * onevec)/(pi_I_kron * onevec);
+    phiD(1)
     
     if Ztransform==1
         %Z-transform of x[n]: sum_n=-inf^inf x[n]z^-n
@@ -86,7 +88,7 @@ function [phiD, PMF_delay, CCDF_delay] = CF_ARQtailDelay(k,K,T,P_kron,pi_I_kron,
         %f_phiD = integral(@(t) f(t,x),-Inf,Inf);
         tmin = -pi;
         tmax = pi;
-        tno = 10^5;
+        tno = 10^3; %10^5;
         t_range = linspace(tmin,tmax,tno);
         t_delta = t_range(2)- t_range(1);
         n_min = 1;%k+M-1;

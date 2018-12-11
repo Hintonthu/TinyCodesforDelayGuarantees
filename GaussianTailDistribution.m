@@ -11,9 +11,9 @@ CCDF_Gaussian = @(d) C*exp(-v*d.^2);
 
 n_min = 1;
 n_max = 5*T;
-n_set = n_min:n_max;
+n_set = linspace(n_min,n_max,20);
 figure    
-plot(n_min:n_max,CCDF_Gaussian(n_set),'k','linewidth',2) 
+plot(n_set,CCDF_Gaussian(n_set),'k','linewidth',2) 
 xlab = 'Value of delay, d'; 
 ylab = 'CCDF, $P(D_{\sf CF-ARQ}>d$)';
 box on;     set(gca,'FontSize',20) 

@@ -77,24 +77,24 @@ Ztransform = 1; %Take inverse Z transform to compute the PMFs and CCDFs of
 % GILBERT ELLIOTT CHANNEL (I.E. WHEN K=2),  WE COMPUTE THE DISTRIBUTION BY
 % TAKING THE INVERSE OF THE CHARACTERISTIC FUNCTION NUMERICALLY
 
-%% Uncoded ARQ
+%% 1-Uncoded ARQ
 
 %Use matrix-generating function of delay to plot the delay PMF (uncoded ARQ)
-%[phiD_ARQ, PMF_delay_ARQ, CCDF_delay_ARQ] = UncodedARQtailDelay(k,K,T,P_kron,pi_I_kron,P00,P01,P10,P11,P0x,Px0,P1x,Px1,epsf,Ztransform);
+[phiD_ARQ, PMF_delay_ARQ, CCDF_delay_ARQ] = UncodedARQtailDelay(k,K,T,P_kron,pi_I_kron,P00,P01,P10,P11,P0x,Px0,P1x,Px1,epsf,Ztransform);
 
-%% Uncoded HARQ
+%% 2-Uncoded HARQ
 
 %Use matrix-generating function of delay to plot the delay PMF (uncoded HARQ)
-%[phiD_HARQ, PMF_delay_HARQ, CCDF_delay_HARQ] = HARQtailDelay(k,K,T,P_kron,pi_I_kron,P00,P01,P10,P11,P0x,Px0,P1x,Px1,r,NACK,epsf,eps,Ztransform);
+[phiD_HARQ, PMF_delay_HARQ, CCDF_delay_HARQ] = HARQtailDelay(k,K,T,P_kron,pi_I_kron,P00,P01,P10,P11,P0x,Px0,P1x,Px1,r,NACK,epsf,eps,Ztransform);
 
-%% CF ARQ
+%% 3-CF ARQ
 
 %Use matrix-generating function of delay to plot the delay PMF (CF-ARQ)
 [phiD_CF_ARQ, PMF_delay_CF_ARQ, CCDF_delay_CF_ARQ] = CF_ARQtailDelay(k,K,T,P_kron,pi_I_kron,P00,P01,P10,P11,P0x,Px0,P1x,Px1,epsf,M,Ztransform);
 
 
-%% Coded ARQ
+%% 4-Coded ARQ
 
 %Use matrix-generating function of delay to plot the delay PMF (C-ARQ)
-%[phiD_C_ARQ, PMF_delay_C_ARQ, CCDF_delay_C_ARQ] = C_ARQtailDelay(k,K,T,P_kron,pi_I_kron,P00,P01,P10,P11,P0x,Px0,P1x,Px1,epsf,M,Ztransform);
+[phiD_C_ARQ, PMF_delay_C_ARQ, CCDF_delay_C_ARQ] = C_ARQtailDelay(k,K,T,P_kron,pi_I_kron,P00,P01,P10,P11,P0x,Px0,P1x,Px1,epsf,M,Ztransform);
 
